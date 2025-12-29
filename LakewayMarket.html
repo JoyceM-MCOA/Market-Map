@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2dcc55dcd2650429edca74c5d7e22b01 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="
+position: fixed;
+top: 12px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 9999;
+background: white;
+padding: 10px 18px;
+border-radius: 6px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+font-size: 16px;
+font-weight: bold;
+">
+Lakeway Market — Hub, Competitors, & Hospitals
+</div>
+    
+<div style="
+position: fixed;
+bottom: 40px;
+left: 40px;
+z-index: 9999;
+background: white;
+padding: 10px 14px;
+border-radius: 6px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+font-size: 12px;
+">
+<b>Legend</b><br>
+<span style="color:blue;">●</span> Hub SNF<br>
+<span style="color:green;">●</span> Other SNFs<br>
+<span style="color:red;">●</span> ACH (Non-ACO)<br>
+<span style="color:purple;">●</span> ACH (ACO)<br>
+<span style="color:orange;">●</span> ACH (TEAMS)<br>
+<span style="color:gray;">—</span> Hub → Hospital Distance
+</div>
+    
+            <div class="folium-map" id="map_2dcc55dcd2650429edca74c5d7e22b01" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2dcc55dcd2650429edca74c5d7e22b01 = L.map(
+                "map_2dcc55dcd2650429edca74c5d7e22b01",
+                {
+                    center: [30.3485, -97.977],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+
+            
+
+        
+    
+            var tile_layer_938e05a844d2055edfadb14067297bd7 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_938e05a844d2055edfadb14067297bd7.addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var tile_layer_11158c77b9a578aa7dd28089725e888a = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_11158c77b9a578aa7dd28089725e888a.addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var tile_layer_a721bb13f4b947b5002d6ebe781c76fa = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a721bb13f4b947b5002d6ebe781c76fa.addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var tile_layer_1f70a7df4dc82090d773294376675fd0 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1f70a7df4dc82090d773294376675fd0.addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var marker_d0554e815ccde6054486c2cabfae87c4 = L.marker(
+                [30.3485, -97.977],
+                {
+}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var icon_045de644e6f5ae501512e0fe5192acb4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_d0554e815ccde6054486c2cabfae87c4.bindTooltip(
+                `<div>
+                     HUB: THE SUMMIT AT LAKEWAY HEALTHCARE CTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d0554e815ccde6054486c2cabfae87c4.setIcon(icon_045de644e6f5ae501512e0fe5192acb4);
+            
+    
+            var circle_98c9db5570e4fb419a3df1f3f10a0901 = L.circle(
+                [30.3485, -97.977],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11265.38, "stroke": true, "weight": 2}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            circle_98c9db5570e4fb419a3df1f3f10a0901.bindTooltip(
+                `<div>
+                     ≈15 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_f6f6f0a6a0ca4a07af1840b855854027 = L.circle(
+                [30.3485, -97.977],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24140.1, "stroke": true, "weight": 2}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            circle_f6f6f0a6a0ca4a07af1840b855854027.bindTooltip(
+                `<div>
+                     ≈30 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_6d41ba07c18dfd371fac366f92ae8ec8 = L.circle(
+                [30.3485, -97.977],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 40233.5, "stroke": true, "weight": 2}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            circle_6d41ba07c18dfd371fac366f92ae8ec8.bindTooltip(
+                `<div>
+                     ≈45 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dcdb3854fcaae59178607f27ab2c71a9 = L.circleMarker(
+                [30.3485, -97.977],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.166666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_03a0a5a72dfb2ffd8f36534a57bf6574 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_83c21b0d89d65c7792a4f3e14afb9919 = $(`<div id="html_83c21b0d89d65c7792a4f3e14afb9919" style="width: 100.0%; height: 100.0%;"><b>THE SUMMIT AT LAKEWAY HEALTHCARE CTR</b><br>Type: SNF<br>Beds: 98<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 0.0 miles</div>`)[0];
+                popup_03a0a5a72dfb2ffd8f36534a57bf6574.setContent(html_83c21b0d89d65c7792a4f3e14afb9919);
+            
+        
+
+        circle_marker_dcdb3854fcaae59178607f27ab2c71a9.bindPopup(popup_03a0a5a72dfb2ffd8f36534a57bf6574)
+        ;
+
+        
+    
+    
+            var circle_marker_10c88a714560aa1c46c604ba78367170 = L.circleMarker(
+                [30.3192, -97.937],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.666666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_eb078244150d07bfdd3d242c42688065 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_18296d96eb49fab80e2de194dafaad89 = $(`<div id="html_18296d96eb49fab80e2de194dafaad89" style="width: 100.0%; height: 100.0%;"><b>SAGE MEADOW HEALTHCARE  INC</b><br>Type: SNF<br>Beds: 140<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 3.1 miles</div>`)[0];
+                popup_eb078244150d07bfdd3d242c42688065.setContent(html_18296d96eb49fab80e2de194dafaad89);
+            
+        
+
+        circle_marker_10c88a714560aa1c46c604ba78367170.bindPopup(popup_eb078244150d07bfdd3d242c42688065)
+        ;
+
+        
+    
+    
+            var circle_marker_ac46f7bd1be5cecbd0e597be0153df45 = L.circleMarker(
+                [30.35, -97.911],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_97b88b80cbe8af907bc49f4fc10676cb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4329ec373864d948749492695808b2fd = $(`<div id="html_4329ec373864d948749492695808b2fd" style="width: 100.0%; height: 100.0%;"><b>LONGHORN VILLAGE</b><br>Type: SNF<br>Beds: 60<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 3.9 miles</div>`)[0];
+                popup_97b88b80cbe8af907bc49f4fc10676cb.setContent(html_4329ec373864d948749492695808b2fd);
+            
+        
+
+        circle_marker_ac46f7bd1be5cecbd0e597be0153df45.bindPopup(popup_97b88b80cbe8af907bc49f4fc10676cb)
+        ;
+
+        
+    
+    
+            var circle_marker_6b097622e579cc623d847806eed6dbaa = L.circleMarker(
+                [30.2894, -97.867],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_b1a499dff399000560a1fbe8b16ddfb7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c37d1f49bb70788ecdd48c4275b98a48 = $(`<div id="html_c37d1f49bb70788ecdd48c4275b98a48" style="width: 100.0%; height: 100.0%;"><b>QUERENCIA AT BARTON CREEK</b><br>Type: SNF<br>Beds: 42<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 7.7 miles</div>`)[0];
+                popup_b1a499dff399000560a1fbe8b16ddfb7.setContent(html_c37d1f49bb70788ecdd48c4275b98a48);
+            
+        
+
+        circle_marker_6b097622e579cc623d847806eed6dbaa.bindPopup(popup_b1a499dff399000560a1fbe8b16ddfb7)
+        ;
+
+        
+    
+    
+            var circle_marker_9b16de8ace1dd12469725d83a0373881 = L.circleMarker(
+                [30.2267, -97.952],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.666666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_2fa371fa59673d2948aa11f44222f694 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5f54cc82b96388b8ed4a907e608f1efa = $(`<div id="html_5f54cc82b96388b8ed4a907e608f1efa" style="width: 100.0%; height: 100.0%;"><b>STONEBRIDGE SN HEALTH CENTER</b><br>Type: SNF<br>Beds: 116<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 8.5 miles</div>`)[0];
+                popup_2fa371fa59673d2948aa11f44222f694.setContent(html_5f54cc82b96388b8ed4a907e608f1efa);
+            
+        
+
+        circle_marker_9b16de8ace1dd12469725d83a0373881.bindPopup(popup_2fa371fa59673d2948aa11f44222f694)
+        ;
+
+        
+    
+    
+            var circle_marker_fabe96f26ac1dcd3d7ba7ca4ca7bd46e = L.circleMarker(
+                [30.2253, -97.841],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.833333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_f78fc0a8fb62c832bc21611ce86f72da = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8cdb4483acb0703c7bd48949152619c2 = $(`<div id="html_8cdb4483acb0703c7bd48949152619c2" style="width: 100.0%; height: 100.0%;"><b>BRUSH COUNTRY NURSING AND REHABILITA</b><br>Type: SNF<br>Beds: 118<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 11.8 miles</div>`)[0];
+                popup_f78fc0a8fb62c832bc21611ce86f72da.setContent(html_8cdb4483acb0703c7bd48949152619c2);
+            
+        
+
+        circle_marker_fabe96f26ac1dcd3d7ba7ca4ca7bd46e.bindPopup(popup_f78fc0a8fb62c832bc21611ce86f72da)
+        ;
+
+        
+    
+    
+            var circle_marker_63381e20f3f82e7e4e9333b466306840 = L.circleMarker(
+                [30.2657, -97.788],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_5f8191644f426baf0da6d152a6929dc6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_93e848f68055d1bbdd31c9493765b1b4 = $(`<div id="html_93e848f68055d1bbdd31c9493765b1b4" style="width: 100.0%; height: 100.0%;"><b>SUMMIT AT WESTLAKE</b><br>Type: SNF<br>Beds: 90<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 12.7 miles</div>`)[0];
+                popup_5f8191644f426baf0da6d152a6929dc6.setContent(html_93e848f68055d1bbdd31c9493765b1b4);
+            
+        
+
+        circle_marker_63381e20f3f82e7e4e9333b466306840.bindPopup(popup_5f8191644f426baf0da6d152a6929dc6)
+        ;
+
+        
+    
+    
+            var circle_marker_2afcd3dbfda9909e94a57acbc0c367ea = L.circleMarker(
+                [30.2353, -97.806],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_df7fcace0b87892ace932e654063703d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_52f3d12cc6b4eedeb91079a5bcb2d0e4 = $(`<div id="html_52f3d12cc6b4eedeb91079a5bcb2d0e4" style="width: 100.0%; height: 100.0%;"><b>BARTON VALLEY REHABILITATION AND HEA</b><br>Type: SNF<br>Beds: 126<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 12.9 miles</div>`)[0];
+                popup_df7fcace0b87892ace932e654063703d.setContent(html_52f3d12cc6b4eedeb91079a5bcb2d0e4);
+            
+        
+
+        circle_marker_2afcd3dbfda9909e94a57acbc0c367ea.bindPopup(popup_df7fcace0b87892ace932e654063703d)
+        ;
+
+        
+    
+    
+            var circle_marker_0b2fea9e6423dc30a5abb7bb289d15c4 = L.circleMarker(
+                [30.4309, -97.781],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_0520fcfad8872a0c584f1aeee6d4e7c5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ecc12996b206fce4b85bcf8f3c45f31c = $(`<div id="html_ecc12996b206fce4b85bcf8f3c45f31c" style="width: 100.0%; height: 100.0%;"><b>CORYELL COUNTY MEMORIAL HOSPITAL AUT</b><br>Type: SNF<br>Beds: 120<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 13.0 miles</div>`)[0];
+                popup_0520fcfad8872a0c584f1aeee6d4e7c5.setContent(html_ecc12996b206fce4b85bcf8f3c45f31c);
+            
+        
+
+        circle_marker_0b2fea9e6423dc30a5abb7bb289d15c4.bindPopup(popup_0520fcfad8872a0c584f1aeee6d4e7c5)
+        ;
+
+        
+    
+    
+            var circle_marker_b658e5aa08c9a35264bfc590b1be9739 = L.circleMarker(
+                [30.373, -97.759],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_f36d0e3e839d63b0356eba3345b7da17 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c2befffe126b146703cd1045fae0c2b5 = $(`<div id="html_c2befffe126b146703cd1045fae0c2b5" style="width: 100.0%; height: 100.0%;"><b>JUNIPER VILLAGE AT SPICEWOOD SUMMIT</b><br>Type: SNF<br>Beds: 46<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 13.1 miles</div>`)[0];
+                popup_f36d0e3e839d63b0356eba3345b7da17.setContent(html_c2befffe126b146703cd1045fae0c2b5);
+            
+        
+
+        circle_marker_b658e5aa08c9a35264bfc590b1be9739.bindPopup(popup_f36d0e3e839d63b0356eba3345b7da17)
+        ;
+
+        
+    
+    
+            var circle_marker_679a1421e123f51e9514c36d2b2b772d = L.circleMarker(
+                [30.3161, -97.755],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.083333333333333, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_c40ace0d83216f67b609ef912ee60495 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_61456cd3097e3837905f869758bc8363 = $(`<div id="html_61456cd3097e3837905f869758bc8363" style="width: 100.0%; height: 100.0%;"><b>WESTMINSTER MANOR</b><br>Type: SNF<br>Beds: 85<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 13.5 miles</div>`)[0];
+                popup_c40ace0d83216f67b609ef912ee60495.setContent(html_61456cd3097e3837905f869758bc8363);
+            
+        
+
+        circle_marker_679a1421e123f51e9514c36d2b2b772d.bindPopup(popup_c40ace0d83216f67b609ef912ee60495)
+        ;
+
+        
+    
+    
+            var circle_marker_4f67917e0d4d58226ff446513a488735 = L.circleMarker(
+                [30.1808, -97.844],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.416666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_adb8705e4302a8007640d8ef822e05b8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ef1c168d767497d5f63b4bc98e622abc = $(`<div id="html_ef1c168d767497d5f63b4bc98e622abc" style="width: 100.0%; height: 100.0%;"><b>AMERICAN ROBIN HEALTHCARE  INC.</b><br>Type: SNF<br>Beds: 125<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 14.0 miles</div>`)[0];
+                popup_adb8705e4302a8007640d8ef822e05b8.setContent(html_ef1c168d767497d5f63b4bc98e622abc);
+            
+        
+
+        circle_marker_4f67917e0d4d58226ff446513a488735.bindPopup(popup_adb8705e4302a8007640d8ef822e05b8)
+        ;
+
+        
+    
+    
+            var circle_marker_dd2ee123fc357f7d414209a9d0178bb6 = L.circleMarker(
+                [30.3452, -97.737],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.083333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_ac7d6d6c137378f7ccb7703f603418c1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3ed48ed4eaf5c9fe9ccbb953674bd94f = $(`<div id="html_3ed48ed4eaf5c9fe9ccbb953674bd94f" style="width: 100.0%; height: 100.0%;"><b>RETIREMENT AND NURSING CENTER AUSTIN</b><br>Type: SNF<br>Beds: 157<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 14.3 miles</div>`)[0];
+                popup_ac7d6d6c137378f7ccb7703f603418c1.setContent(html_3ed48ed4eaf5c9fe9ccbb953674bd94f);
+            
+        
+
+        circle_marker_dd2ee123fc357f7d414209a9d0178bb6.bindPopup(popup_ac7d6d6c137378f7ccb7703f603418c1)
+        ;
+
+        
+    
+    
+            var circle_marker_236d0ac531749898dac1eca9301b0d85 = L.circleMarker(
+                [30.418, -97.743],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.166666666666668, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_1f11cadd85369893d1f3a675b5607d60 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b71b91360435bb925b577fb31d1e9f9f = $(`<div id="html_b71b91360435bb925b577fb31d1e9f9f" style="width: 100.0%; height: 100.0%;"><b>WINDSOR NRS & REHAB CTR OF DUVAL</b><br>Type: SNF<br>Beds: 206<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 14.8 miles</div>`)[0];
+                popup_1f11cadd85369893d1f3a675b5607d60.setContent(html_b71b91360435bb925b577fb31d1e9f9f);
+            
+        
+
+        circle_marker_236d0ac531749898dac1eca9301b0d85.bindPopup(popup_1f11cadd85369893d1f3a675b5607d60)
+        ;
+
+        
+    
+    
+            var circle_marker_063802857017fe982c0cdc2cd0b61516 = L.circleMarker(
+                [30.5208, -97.82],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.333333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_2065fc4880733bea6ef1df1afea90b3b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ba57ef6570b7425dc2b38e1375342ebe = $(`<div id="html_ba57ef6570b7425dc2b38e1375342ebe" style="width: 100.0%; height: 100.0%;"><b>SAGEBROOK NURSING AND REHABILITATION</b><br>Type: SNF<br>Beds: 124<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 15.1 miles</div>`)[0];
+                popup_2065fc4880733bea6ef1df1afea90b3b.setContent(html_ba57ef6570b7425dc2b38e1375342ebe);
+            
+        
+
+        circle_marker_063802857017fe982c0cdc2cd0b61516.bindPopup(popup_2065fc4880733bea6ef1df1afea90b3b)
+        ;
+
+        
+    
+    
+            var circle_marker_5faa0d13396acbe27c478cae70a20c45 = L.circleMarker(
+                [30.2421, -97.7522],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.166666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_5f1ca169e5d930aaabe822d24f22b6ba = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2153529a6220d5b93b9e653c31dff6a2 = $(`<div id="html_2153529a6220d5b93b9e653c31dff6a2" style="width: 100.0%; height: 100.0%;"><b>FPACP STONEBRIAR LLC</b><br>Type: SNF<br>Beds: 134<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 15.3 miles</div>`)[0];
+                popup_5f1ca169e5d930aaabe822d24f22b6ba.setContent(html_2153529a6220d5b93b9e653c31dff6a2);
+            
+        
+
+        circle_marker_5faa0d13396acbe27c478cae70a20c45.bindPopup(popup_5f1ca169e5d930aaabe822d24f22b6ba)
+        ;
+
+        
+    
+    
+            var circle_marker_8f2f4419b50a11c6dbd9e4d80d69095f = L.circleMarker(
+                [30.5316, -97.807],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.166666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_b9cb2467f5be18072a7afe2759823f63 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_75055481992f24e49192569288d4ff85 = $(`<div id="html_75055481992f24e49192569288d4ff85" style="width: 100.0%; height: 100.0%;"><b>APPLE SPRINGS HEALTHCARE  INC.</b><br>Type: SNF<br>Beds: 122<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 16.2 miles</div>`)[0];
+                popup_b9cb2467f5be18072a7afe2759823f63.setContent(html_75055481992f24e49192569288d4ff85);
+            
+        
+
+        circle_marker_8f2f4419b50a11c6dbd9e4d80d69095f.bindPopup(popup_b9cb2467f5be18072a7afe2759823f63)
+        ;
+
+        
+    
+    
+            var circle_marker_63a3e05e802078cb0e142e1d30b5b1bf = L.circleMarker(
+                [30.5346, -97.808],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_f5315300d81747051706995d0e37a4a0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eb7550cd8d79d8ad41414f3281dbab0d = $(`<div id="html_eb7550cd8d79d8ad41414f3281dbab0d" style="width: 100.0%; height: 100.0%;"><b>THE SPRINGS HEALTHCARE AND REHABILIT</b><br>Type: SNF<br>Beds: 120<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 16.3 miles</div>`)[0];
+                popup_f5315300d81747051706995d0e37a4a0.setContent(html_eb7550cd8d79d8ad41414f3281dbab0d);
+            
+        
+
+        circle_marker_63a3e05e802078cb0e142e1d30b5b1bf.bindPopup(popup_f5315300d81747051706995d0e37a4a0)
+        ;
+
+        
+    
+    
+            var circle_marker_204ef4300dd7f97cf71dbc658f492b38 = L.circleMarker(
+                [30.4022, -97.702],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.833333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_0aa285f18d185cec31faa07104f805bb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cd3490c9c0c4553de26bbb3bfd202a61 = $(`<div id="html_cd3490c9c0c4553de26bbb3bfd202a61" style="width: 100.0%; height: 100.0%;"><b>GRACY WOODS NURSING CENTER</b><br>Type: SNF<br>Beds: 118<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 16.8 miles</div>`)[0];
+                popup_0aa285f18d185cec31faa07104f805bb.setContent(html_cd3490c9c0c4553de26bbb3bfd202a61);
+            
+        
+
+        circle_marker_204ef4300dd7f97cf71dbc658f492b38.bindPopup(popup_0aa285f18d185cec31faa07104f805bb)
+        ;
+
+        
+    
+    
+            var circle_marker_8b9dc1b3fef6934e92ecc485da565db3 = L.circleMarker(
+                [30.4085, -97.703],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.333333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_3152c372c4b6d295369315919bffd9ec = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6c77345d85435bcd0ec1bb53d065ee6a = $(`<div id="html_6c77345d85435bcd0ec1bb53d065ee6a" style="width: 100.0%; height: 100.0%;"><b>PARK BEND HEALTH CENTER</b><br>Type: SNF<br>Beds: 124<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 16.9 miles</div>`)[0];
+                popup_3152c372c4b6d295369315919bffd9ec.setContent(html_6c77345d85435bcd0ec1bb53d065ee6a);
+            
+        
+
+        circle_marker_8b9dc1b3fef6934e92ecc485da565db3.bindPopup(popup_3152c372c4b6d295369315919bffd9ec)
+        ;
+
+        
+    
+    
+            var circle_marker_0eb809115d2cb9a48e2d5e79147b0fd9 = L.circleMarker(
+                [30.1097, -97.331],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_7f831f42b7ccc50272ffac481ad53801 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_af57d8d35d08fbdc4bbf240cfc72e4f0 = $(`<div id="html_af57d8d35d08fbdc4bbf240cfc72e4f0" style="width: 100.0%; height: 100.0%;"><b>SMITHVILLE HOSP AUTH-BASTROP LPN&RC</b><br>Type: SNF<br>Beds: 120<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 42.0 miles</div>`)[0];
+                popup_7f831f42b7ccc50272ffac481ad53801.setContent(html_af57d8d35d08fbdc4bbf240cfc72e4f0);
+            
+        
+
+        circle_marker_0eb809115d2cb9a48e2d5e79147b0fd9.bindPopup(popup_7f831f42b7ccc50272ffac481ad53801)
+        ;
+
+        
+    
+    
+            var circle_marker_7a49e2ffe627e66a8ee416d9109912ce = L.circleMarker(
+                [31.4743, -97.208],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_9b1662dadfecccaf6ee33136eb319c3c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8f9c211e010e4b7ea3a5339c72a6234d = $(`<div id="html_8f9c211e010e4b7ea3a5339c72a6234d" style="width: 100.0%; height: 100.0%;"><b>ROYAL MANOR II HEALTH CENTER</b><br>Type: SNF<br>Beds: 120<br>ACO: nan<br>TEAMS: nan<br>Distance from hub: 90.0 miles</div>`)[0];
+                popup_9b1662dadfecccaf6ee33136eb319c3c.setContent(html_8f9c211e010e4b7ea3a5339c72a6234d);
+            
+        
+
+        circle_marker_7a49e2ffe627e66a8ee416d9109912ce.bindPopup(popup_9b1662dadfecccaf6ee33136eb319c3c)
+        ;
+
+        
+    
+    
+            var circle_marker_bbe8f646e6eb648c9b932f06cd13759d = L.circleMarker(
+                [30.5321379, -97.8116845],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.166666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_a63dc2232e70dc265ba2dc3b48b590d2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b21332671d6a198efd976c0f8b178768 = $(`<div id="html_b21332671d6a198efd976c0f8b178768" style="width: 100.0%; height: 100.0%;"><b>Ascension Seton Cedar Park Hospital</b><br>Type: ACH<br>Beds: 110<br>ACO: N<br>TEAMS: N<br>Distance from hub: 16.0 miles</div>`)[0];
+                popup_a63dc2232e70dc265ba2dc3b48b590d2.setContent(html_b21332671d6a198efd976c0f8b178768);
+            
+        
+
+        circle_marker_bbe8f646e6eb648c9b932f06cd13759d.bindPopup(popup_a63dc2232e70dc265ba2dc3b48b590d2)
+        ;
+
+        
+    
+    
+            var poly_line_23a249bd2345d4f446d7e34abb0d860a = L.polyline(
+                [[30.3485, -97.977], [30.5321379, -97.8116845]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_f8a0e87125005401da68d29d707830d8 = L.circleMarker(
+                [30.305555, -97.7453199999999],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 32.583333333333336, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_a35c5a1048e364f2e067f06795dd2e23 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cae4576409fb08ad38b1093505692c4c = $(`<div id="html_cae4576409fb08ad38b1093505692c4c" style="width: 100.0%; height: 100.0%;"><b>Ascension Seton Medical Center Austin</b><br>Type: ACH<br>Beds: 391<br>ACO: Y<br>TEAMS: N<br>Distance from hub: 14.2 miles</div>`)[0];
+                popup_a35c5a1048e364f2e067f06795dd2e23.setContent(html_cae4576409fb08ad38b1093505692c4c);
+            
+        
+
+        circle_marker_f8a0e87125005401da68d29d707830d8.bindPopup(popup_a35c5a1048e364f2e067f06795dd2e23)
+        ;
+
+        
+    
+    
+            var poly_line_b5a3b8fa1603ad7cdc7310de13cdaace = L.polyline(
+                [[30.3485, -97.977], [30.305555, -97.7453199999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_c83a4cff440772ff74bc3a42c395fb71 = L.circleMarker(
+                [30.4053348, -97.7443014999999],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.833333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_b9ee265c3495f4de1ac681f1a840dae9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_489dffe4b47950c469f5cd7ea758d89d = $(`<div id="html_489dffe4b47950c469f5cd7ea758d89d" style="width: 100.0%; height: 100.0%;"><b>Ascension Seton Northwest Hospital</b><br>Type: ACH<br>Beds: 106<br>ACO: Y<br>TEAMS: N<br>Distance from hub: 14.4 miles</div>`)[0];
+                popup_b9ee265c3495f4de1ac681f1a840dae9.setContent(html_489dffe4b47950c469f5cd7ea758d89d);
+            
+        
+
+        circle_marker_c83a4cff440772ff74bc3a42c395fb71.bindPopup(popup_b9ee265c3495f4de1ac681f1a840dae9)
+        ;
+
+        
+    
+    
+            var poly_line_519aa1c428c326151ba80d83dd879c9b = L.polyline(
+                [[30.3485, -97.977], [30.4053348, -97.7443014999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_9ce1231a2baec727c242efa5c2cca6ed = L.circleMarker(
+                [30.3060903, -97.7483757999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_344cdaa29c7b3aae804dfe2fa6983511 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e64a1b7e470d8f4932d5886bde443ca3 = $(`<div id="html_e64a1b7e470d8f4932d5886bde443ca3" style="width: 100.0%; height: 100.0%;"><b>Ascension Seton Shoal Creek</b><br>Type: ACH<br>Beds: 54<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.0 miles</div>`)[0];
+                popup_344cdaa29c7b3aae804dfe2fa6983511.setContent(html_e64a1b7e470d8f4932d5886bde443ca3);
+            
+        
+
+        circle_marker_9ce1231a2baec727c242efa5c2cca6ed.bindPopup(popup_344cdaa29c7b3aae804dfe2fa6983511)
+        ;
+
+        
+    
+    
+            var poly_line_ea4861281d62bf3a3da2999c0209c781 = L.polyline(
+                [[30.3485, -97.977], [30.3060903, -97.7483757999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_cf4e9791feb9cd52b8995a16f079ff45 = L.circleMarker(
+                [30.226127, -97.8918903],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_09b2f8411affab825e775717333390ca = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f17f8a844fd3e09230e59334410d4484 = $(`<div id="html_f17f8a844fd3e09230e59334410d4484" style="width: 100.0%; height: 100.0%;"><b>Ascension Seton Southwest Hospital</b><br>Type: ACH<br>Beds: 28<br>ACO: N<br>TEAMS: N<br>Distance from hub: 9.8 miles</div>`)[0];
+                popup_09b2f8411affab825e775717333390ca.setContent(html_f17f8a844fd3e09230e59334410d4484);
+            
+        
+
+        circle_marker_cf4e9791feb9cd52b8995a16f079ff45.bindPopup(popup_09b2f8411affab825e775717333390ca)
+        ;
+
+        
+    
+    
+            var poly_line_84a74c48e93e3adb8389a80adb3d7832 = L.polyline(
+                [[30.3485, -97.977], [30.226127, -97.8918903]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_04bfcfdb161bb0236908efe2f7f3d4e4 = L.circleMarker(
+                [30.2116668, -97.7922744999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.666666666666667, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_2822a4f4ce0373db2b816469c89fa8a8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0153021f839b619d6c1243ab6b0c09f9 = $(`<div id="html_0153021f839b619d6c1243ab6b0c09f9" style="width: 100.0%; height: 100.0%;"><b>Austin Oaks Hospital</b><br>Type: ACH<br>Beds: 80<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.5 miles</div>`)[0];
+                popup_2822a4f4ce0373db2b816469c89fa8a8.setContent(html_0153021f839b619d6c1243ab6b0c09f9);
+            
+        
+
+        circle_marker_04bfcfdb161bb0236908efe2f7f3d4e4.bindPopup(popup_2822a4f4ce0373db2b816469c89fa8a8)
+        ;
+
+        
+    
+    
+            var poly_line_ab185addf8ba2c2c9f968181dbb35389 = L.polyline(
+                [[30.3485, -97.977], [30.2116668, -97.7922744999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_a12e1f68cda14686ea87e9f6e4164995 = L.circleMarker(
+                [30.3084703999999, -97.7369174],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.583333333333332, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_efb362e8f8a45f09d6e0e810e3efe963 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1dd2e037b141e982389a73317543e2eb = $(`<div id="html_1dd2e037b141e982389a73317543e2eb" style="width: 100.0%; height: 100.0%;"><b>Austin State Hospital</b><br>Type: ACH<br>Beds: 199<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.6 miles</div>`)[0];
+                popup_efb362e8f8a45f09d6e0e810e3efe963.setContent(html_1dd2e037b141e982389a73317543e2eb);
+            
+        
+
+        circle_marker_a12e1f68cda14686ea87e9f6e4164995.bindPopup(popup_efb362e8f8a45f09d6e0e810e3efe963)
+        ;
+
+        
+    
+    
+            var poly_line_6a1f3e371490e6d6d57dfe4864c336a5 = L.polyline(
+                [[30.3485, -97.977], [30.3084703999999, -97.7369174]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_908a6e9a4d54ec32f89ae6ecb474344b = L.circleMarker(
+                [30.3452091, -97.9700994],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_84d7085b243fbd607bb8f74cd02e2ed0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0510afa664e3aa9023f05b863345b58d = $(`<div id="html_0510afa664e3aa9023f05b863345b58d" style="width: 100.0%; height: 100.0%;"><b>Baylor Scott & White Institute for Rehabilitation - Lakeway</b><br>Type: ACH<br>Beds: 36<br>ACO: N<br>TEAMS: N<br>Distance from hub: 0.5 miles</div>`)[0];
+                popup_84d7085b243fbd607bb8f74cd02e2ed0.setContent(html_0510afa664e3aa9023f05b863345b58d);
+            
+        
+
+        circle_marker_908a6e9a4d54ec32f89ae6ecb474344b.bindPopup(popup_84d7085b243fbd607bb8f74cd02e2ed0)
+        ;
+
+        
+    
+    
+            var poly_line_f013ae6822fdae720a33a40852c730a0 = L.polyline(
+                [[30.3485, -97.977], [30.3452091, -97.9700994]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_bbc6ab5200b867ea9d6419c360be47d7 = L.circleMarker(
+                [30.2359586, -97.8361685999999],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_3a62b94b426dae6e16c5c2f9085e25a1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c43792330ebc0dad6308c4981a947a33 = $(`<div id="html_c43792330ebc0dad6308c4981a947a33" style="width: 100.0%; height: 100.0%;"><b>Baylor Scott & White Medical Center - Austin</b><br>Type: ACH<br>Beds: 25<br>ACO: Y<br>TEAMS: N<br>Distance from hub: 11.4 miles</div>`)[0];
+                popup_3a62b94b426dae6e16c5c2f9085e25a1.setContent(html_c43792330ebc0dad6308c4981a947a33);
+            
+        
+
+        circle_marker_bbc6ab5200b867ea9d6419c360be47d7.bindPopup(popup_3a62b94b426dae6e16c5c2f9085e25a1)
+        ;
+
+        
+    
+    
+            var poly_line_fb1d9ebb3fd342a1b02cfb8702af5e59 = L.polyline(
+                [[30.3485, -97.977], [30.2359586, -97.8361685999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_ce19d277d29d71138416d234fd7de1b6 = L.circleMarker(
+                [30.3330585, -97.9714807],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.833333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_4f256d7ca28e16e33b0ad890d33c77a1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d3e5e123145ded1266f278149938d338 = $(`<div id="html_d3e5e123145ded1266f278149938d338" style="width: 100.0%; height: 100.0%;"><b>Baylor Scott & White Medical Center - Lakeway</b><br>Type: ACH<br>Beds: 106<br>ACO: Y<br>TEAMS: N<br>Distance from hub: 1.1 miles</div>`)[0];
+                popup_4f256d7ca28e16e33b0ad890d33c77a1.setContent(html_d3e5e123145ded1266f278149938d338);
+            
+        
+
+        circle_marker_ce19d277d29d71138416d234fd7de1b6.bindPopup(popup_4f256d7ca28e16e33b0ad890d33c77a1)
+        ;
+
+        
+    
+    
+            var poly_line_fab25849c0569a54f4a34319ca069b7b = L.polyline(
+                [[30.3485, -97.977], [30.3330585, -97.9714807]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_cc4537c31df41614ee08e9829dd378fb = L.circleMarker(
+                [30.3123288, -97.7346769999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_c2151a1c85c3a773a94470b7c7c0ccd0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_429b78aad81a4fcbfa4ca332634f06a5 = $(`<div id="html_429b78aad81a4fcbfa4ca332634f06a5" style="width: 100.0%; height: 100.0%;"><b>Central Texas Rehabilitation Hospital</b><br>Type: ACH<br>Beds: 50<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.7 miles</div>`)[0];
+                popup_c2151a1c85c3a773a94470b7c7c0ccd0.setContent(html_429b78aad81a4fcbfa4ca332634f06a5);
+            
+        
+
+        circle_marker_cc4537c31df41614ee08e9829dd378fb.bindPopup(popup_c2151a1c85c3a773a94470b7c7c0ccd0)
+        ;
+
+        
+    
+    
+            var poly_line_5e66c3744ed95a25ae07536f56070018 = L.polyline(
+                [[30.3485, -97.977], [30.3123288, -97.7346769999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_16bbfa81f01ad08e446e0f274df7fd28 = L.circleMarker(
+                [30.3118071, -97.7433253999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.083333333333334, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_4af95bfc673e6ce9469ec5b2ad9a7a8a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3c87e922c04e7af686f2ab0b1eed3d1a = $(`<div id="html_3c87e922c04e7af686f2ab0b1eed3d1a" style="width: 100.0%; height: 100.0%;"><b>Cornerstone Specialty Hospitals Austin</b><br>Type: ACH<br>Beds: 157<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.2 miles</div>`)[0];
+                popup_4af95bfc673e6ce9469ec5b2ad9a7a8a.setContent(html_3c87e922c04e7af686f2ab0b1eed3d1a);
+            
+        
+
+        circle_marker_16bbfa81f01ad08e446e0f274df7fd28.bindPopup(popup_4af95bfc673e6ce9469ec5b2ad9a7a8a)
+        ;
+
+        
+    
+    
+            var poly_line_de343050eaf6a19a506926648e1eb073 = L.polyline(
+                [[30.3485, -97.977], [30.3118071, -97.7433253999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_d523eb2aa1b6ff9dd70ba6805b8b4708 = L.circleMarker(
+                [30.303394, -97.7054591],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 25.833333333333332, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_41414d45b4880265f73a77a3c1141dc1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5ec078c98bed8cfae3c5ee99f424710d = $(`<div id="html_5ec078c98bed8cfae3c5ee99f424710d" style="width: 100.0%; height: 100.0%;"><b>Dell Children's Medical Center</b><br>Type: ACH<br>Beds: 310<br>ACO: N<br>TEAMS: N<br>Distance from hub: 16.5 miles</div>`)[0];
+                popup_41414d45b4880265f73a77a3c1141dc1.setContent(html_5ec078c98bed8cfae3c5ee99f424710d);
+            
+        
+
+        circle_marker_d523eb2aa1b6ff9dd70ba6805b8b4708.bindPopup(popup_41414d45b4880265f73a77a3c1141dc1)
+        ;
+
+        
+    
+    
+            var poly_line_60bbf9fd7a757e641de75a99d36ef5ca = L.polyline(
+                [[30.3485, -97.977], [30.303394, -97.7054591]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_44b2f56b15213e37d9f63c753a47d85d = L.circleMarker(
+                [30.2742401, -97.7342015999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.75, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_adcfcec4402c627bd54ea9a8da5027a7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dc0a5fc2724c0039a4f9d8594c40ee0e = $(`<div id="html_dc0a5fc2724c0039a4f9d8594c40ee0e" style="width: 100.0%; height: 100.0%;"><b>Dell Seton Medical Center at The University of Texas</b><br>Type: ACH<br>Beds: 225<br>ACO: N<br>TEAMS: N<br>Distance from hub: 15.4 miles</div>`)[0];
+                popup_adcfcec4402c627bd54ea9a8da5027a7.setContent(html_dc0a5fc2724c0039a4f9d8594c40ee0e);
+            
+        
+
+        circle_marker_44b2f56b15213e37d9f63c753a47d85d.bindPopup(popup_adcfcec4402c627bd54ea9a8da5027a7)
+        ;
+
+        
+    
+    
+            var poly_line_ccc83225ae578d1dd3a099b06f086085 = L.polyline(
+                [[30.3485, -97.977], [30.2742401, -97.7342015999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_2ac2cf92fa1805d8894ea7323c2b86e2 = L.circleMarker(
+                [30.2258571, -97.7662522],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_94cc5313edfb3e569a5caf72517bec0d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_358f546f01f9440ec3027356cb5ae037 = $(`<div id="html_358f546f01f9440ec3027356cb5ae037" style="width: 100.0%; height: 100.0%;"><b>Encompass Health Rehabilitation Hospital of Austin</b><br>Type: ACH<br>Beds: 60<br>ACO: N<br>TEAMS: N<br>Distance from hub: 15.2 miles</div>`)[0];
+                popup_94cc5313edfb3e569a5caf72517bec0d.setContent(html_358f546f01f9440ec3027356cb5ae037);
+            
+        
+
+        circle_marker_2ac2cf92fa1805d8894ea7323c2b86e2.bindPopup(popup_94cc5313edfb3e569a5caf72517bec0d)
+        ;
+
+        
+    
+    
+            var poly_line_19a8495d7f5c7218483bb4499461fa6b = L.polyline(
+                [[30.3485, -97.977], [30.2258571, -97.7662522]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_89bd3cac797a4c3ea119dee2b0576526 = L.circleMarker(
+                [30.3059917, -97.7410629],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_cb017a582893b937f42f3f0d8e1bc266 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6c041151fb99441e5e3f29978b12e73f = $(`<div id="html_6c041151fb99441e5e3f29978b12e73f" style="width: 100.0%; height: 100.0%;"><b>Heart Hospital of Austin</b><br>Type: ACH<br>Beds: 58<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.4 miles</div>`)[0];
+                popup_cb017a582893b937f42f3f0d8e1bc266.setContent(html_6c041151fb99441e5e3f29978b12e73f);
+            
+        
+
+        circle_marker_89bd3cac797a4c3ea119dee2b0576526.bindPopup(popup_cb017a582893b937f42f3f0d8e1bc266)
+        ;
+
+        
+    
+    
+            var poly_line_05f22459127f4e86b2fbedb8139d1586 = L.polyline(
+                [[30.3485, -97.977], [30.3059917, -97.7410629]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_816b2c7862a7f55a334fcd026d36c1f4 = L.circleMarker(
+                [30.3504761, -97.7517711999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_f6c5b12584dce283d40305eace048236 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9089faa4d1c19f930fbda461c9b0ad95 = $(`<div id="html_9089faa4d1c19f930fbda461c9b0ad95" style="width: 100.0%; height: 100.0%;"><b>Northwest Hills Surgical Hospital</b><br>Type: ACH<br>Beds: 8<br>ACO: N<br>TEAMS: N<br>Distance from hub: 13.5 miles</div>`)[0];
+                popup_f6c5b12584dce283d40305eace048236.setContent(html_9089faa4d1c19f930fbda461c9b0ad95);
+            
+        
+
+        circle_marker_816b2c7862a7f55a334fcd026d36c1f4.bindPopup(popup_f6c5b12584dce283d40305eace048236)
+        ;
+
+        
+    
+    
+            var poly_line_33d0ab45237fc7851fff6bb9caf0e575 = L.polyline(
+                [[30.3485, -97.977], [30.3504761, -97.7517711999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_1cc56ddb276738bbb61b6592d687a961 = L.circleMarker(
+                [30.4111251999999, -97.7054701],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 39.916666666666664, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_7b67257eeba43e71ce4544ac324c07c3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_07f855ce6637998ae013738d378ba76f = $(`<div id="html_07f855ce6637998ae013738d378ba76f" style="width: 100.0%; height: 100.0%;"><b>Saint David's North Austin Medical Center</b><br>Type: ACH<br>Beds: 479<br>ACO: N<br>TEAMS: N<br>Distance from hub: 16.8 miles</div>`)[0];
+                popup_7b67257eeba43e71ce4544ac324c07c3.setContent(html_07f855ce6637998ae013738d378ba76f);
+            
+        
+
+        circle_marker_1cc56ddb276738bbb61b6592d687a961.bindPopup(popup_7b67257eeba43e71ce4544ac324c07c3)
+        ;
+
+        
+    
+    
+            var poly_line_621dee870a7e0c2fced71df81dee18b3 = L.polyline(
+                [[30.3485, -97.977], [30.4111251999999, -97.7054701]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_02859b95b69a4eff46a898db84ea5d0a = L.circleMarker(
+                [30.2894815, -97.7254978],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_b6f62b21ecc59c1ecad1d80ec3afb8b8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b9d5ae551c5b2ce4f1e7ef0ccae45938 = $(`<div id="html_b9d5ae551c5b2ce4f1e7ef0ccae45938" style="width: 100.0%; height: 100.0%;"><b>Saint David's Rehabilitation Hospital</b><br>Type: ACH<br>Beds: 0<br>ACO: N<br>TEAMS: N<br>Distance from hub: 15.6 miles</div>`)[0];
+                popup_b6f62b21ecc59c1ecad1d80ec3afb8b8.setContent(html_b9d5ae551c5b2ce4f1e7ef0ccae45938);
+            
+        
+
+        circle_marker_02859b95b69a4eff46a898db84ea5d0a.bindPopup(popup_b6f62b21ecc59c1ecad1d80ec3afb8b8)
+        ;
+
+        
+    
+    
+            var poly_line_bf3cd7b1a09e059651ba6d97b3488480 = L.polyline(
+                [[30.3485, -97.977], [30.2894815, -97.7254978]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_1408bfcd2ecd17828e79114fe64f77c0 = L.circleMarker(
+                [30.2894815, -97.7254978],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 50.0, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_46c409a0f5e8d8fe4744d289b55ee185 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c6f60b7f0391130d422e07a839ec5f26 = $(`<div id="html_c6f60b7f0391130d422e07a839ec5f26" style="width: 100.0%; height: 100.0%;"><b>St. David's Medical Center</b><br>Type: ACH<br>Beds: 600<br>ACO: N<br>TEAMS: N<br>Distance from hub: 15.6 miles</div>`)[0];
+                popup_46c409a0f5e8d8fe4744d289b55ee185.setContent(html_c6f60b7f0391130d422e07a839ec5f26);
+            
+        
+
+        circle_marker_1408bfcd2ecd17828e79114fe64f77c0.bindPopup(popup_46c409a0f5e8d8fe4744d289b55ee185)
+        ;
+
+        
+    
+    
+            var poly_line_5ef2c08ab2ecb886a8784b3673208fef = L.polyline(
+                [[30.3485, -97.977], [30.2894815, -97.7254978]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_2fdfd45564d3ea1b433ba31f96c04c6c = L.circleMarker(
+                [30.2256196, -97.7746098],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28.666666666666668, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_8a3bd844f8bcb7fdc283e7bc8db177af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f773d34dab860969c300db0748692f80 = $(`<div id="html_f773d34dab860969c300db0748692f80" style="width: 100.0%; height: 100.0%;"><b>St. David's South Austin Medical Center</b><br>Type: ACH<br>Beds: 344<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.8 miles</div>`)[0];
+                popup_8a3bd844f8bcb7fdc283e7bc8db177af.setContent(html_f773d34dab860969c300db0748692f80);
+            
+        
+
+        circle_marker_2fdfd45564d3ea1b433ba31f96c04c6c.bindPopup(popup_8a3bd844f8bcb7fdc283e7bc8db177af)
+        ;
+
+        
+    
+    
+            var poly_line_0f9ebba74d1a7c147868af5dbbd1e747 = L.polyline(
+                [[30.3485, -97.977], [30.2256196, -97.7746098]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_0efb84a4948db5b96a9f4cf004802e1b = L.circleMarker(
+                [30.4748678, -97.7900339999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_5432cd4880c6aa0e69f5cb6a614424e3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_404a7b839bc206a0a72eadaae60f43d7 = $(`<div id="html_404a7b839bc206a0a72eadaae60f43d7" style="width: 100.0%; height: 100.0%;"><b>Texas Children's Hospital North Austin Campus</b><br>Type: ACH<br>Beds: 52<br>ACO: N<br>TEAMS: N<br>Distance from hub: 14.2 miles</div>`)[0];
+                popup_5432cd4880c6aa0e69f5cb6a614424e3.setContent(html_404a7b839bc206a0a72eadaae60f43d7);
+            
+        
+
+        circle_marker_0efb84a4948db5b96a9f4cf004802e1b.bindPopup(popup_5432cd4880c6aa0e69f5cb6a614424e3)
+        ;
+
+        
+    
+    
+            var poly_line_5c9e59d98baffa891e41ba5b269ace8a = L.polyline(
+                [[30.3485, -97.977], [30.4748678, -97.7900339999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_d59e0196e49b25a852d657d0020390b4 = L.circleMarker(
+                [30.1896888, -97.8062054999999],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_1deffab6d433e9b992da5f0b105b0289 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a7288966f5ec10d3582b5500ed037e84 = $(`<div id="html_a7288966f5ec10d3582b5500ed037e84" style="width: 100.0%; height: 100.0%;"><b>Texas NeuroRehab Center</b><br>Type: ACH<br>Beds: 47<br>ACO: N<br>TEAMS: N<br>Distance from hub: 15.0 miles</div>`)[0];
+                popup_1deffab6d433e9b992da5f0b105b0289.setContent(html_a7288966f5ec10d3582b5500ed037e84);
+            
+        
+
+        circle_marker_d59e0196e49b25a852d657d0020390b4.bindPopup(popup_1deffab6d433e9b992da5f0b105b0289)
+        ;
+
+        
+    
+    
+            var poly_line_97666ca6ebdc5234f534ef0ddf02e852 = L.polyline(
+                [[30.3485, -97.977], [30.1896888, -97.8062054999999]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var circle_marker_e0adcd332643cbf2a21f6a27cb076c47 = L.circleMarker(
+                [30.2958323, -97.8258632],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.65, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+        var popup_47bcfa08eab0b89f7c139fc08f98859d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a0dfe33d27a490f3eaaa7c5d9cd61670 = $(`<div id="html_a0dfe33d27a490f3eaaa7c5d9cd61670" style="width: 100.0%; height: 100.0%;"><b>The Hospital at Westlake Medical Center</b><br>Type: ACH<br>Beds: 23<br>ACO: N<br>TEAMS: N<br>Distance from hub: 9.7 miles</div>`)[0];
+                popup_47bcfa08eab0b89f7c139fc08f98859d.setContent(html_a0dfe33d27a490f3eaaa7c5d9cd61670);
+            
+        
+
+        circle_marker_e0adcd332643cbf2a21f6a27cb076c47.bindPopup(popup_47bcfa08eab0b89f7c139fc08f98859d)
+        ;
+
+        
+    
+    
+            var poly_line_c790e118e94ed7802d62db76e73c0ba9 = L.polyline(
+                [[30.3485, -97.977], [30.2958323, -97.8258632]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+        
+    
+            var layer_control_1a5a918f44a1d712b2c73166f1fed596_layers = {
+                base_layers : {
+                    "Light (Google-like)" : tile_layer_938e05a844d2055edfadb14067297bd7,
+                    "Detailed" : tile_layer_11158c77b9a578aa7dd28089725e888a,
+                    "Standard" : tile_layer_a721bb13f4b947b5002d6ebe781c76fa,
+                    "Satellite" : tile_layer_1f70a7df4dc82090d773294376675fd0,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_1a5a918f44a1d712b2c73166f1fed596 = L.control.layers(
+                layer_control_1a5a918f44a1d712b2c73166f1fed596_layers.base_layers,
+                layer_control_1a5a918f44a1d712b2c73166f1fed596_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_2dcc55dcd2650429edca74c5d7e22b01);
+
+        
+</script>
+</html>
